@@ -31,59 +31,59 @@ import java.util.concurrent.Executor;
 @EnableAsync
 @EnableAspectJAutoProxy
 public class Config {
-    @Bean
-    public MappingJackson2HttpMessageConverter jsonMessageConverter() {
-        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        jsonConverter.setObjectMapper(objectMapper);
-        return jsonConverter;
-    }
 
-    @Bean
-    public MCXAlertService mcxAlertService() {
-        return new MCXAlertServiceImpl();
-    }
+  public static String PASSWORD;
+  @Bean
+  public MappingJackson2HttpMessageConverter jsonMessageConverter() {
+    MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    jsonConverter.setObjectMapper(objectMapper);
+    return jsonConverter;
+  }
 
-    @Bean
-    public JavaMailSender emailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(NotificationConstants.HOST);
-        mailSender.setPort(NotificationConstants.PORT);
-        mailSender.setUsername(NotificationConstants.USER_NAME);
-        mailSender.setPassword(NotificationConstants.PASSWORD);
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", NotificationConstants.PROTOCOL);
-        props.put("mail.smtp.auth", NotificationConstants.AUTH);
-        props.put("mail.smtp.starttls.enable", NotificationConstants.STARTTLS);
-        props.put("mail.debug", NotificationConstants.DEBUGG);
-        return mailSender;
-    }
+  @Bean
+  public MCXAlertService mcxAlertService() {
+    return new MCXAlertServiceImpl();
+  }
 
-    @Bean
-    public AlertSystem alertSystem() {
-        return new AlertSystem();
-    }
+  @Bean
+  public JavaMailSender emailSender() {
+    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    mailSender.setHost(NotificationConstants.HOST);
+    mailSender.setPort(NotificationConstants.PORT);
+    mailSender.setUsername(NotificationConstants.USER_NAME);
+    mailSender.setPassword(NotificationConstants.PASSWORD);
+    Properties props = mailSender.getJavaMailProperties();
+    props.put("mail.transport.protocol", NotificationConstants.PROTOCOL);
+    props.put("mail.smtp.auth", NotificationConstants.AUTH);
+    props.put("mail.smtp.starttls.enable", NotificationConstants.STARTTLS);
+    props.put("mail.debug", NotificationConstants.DEBUGG);
+    return mailSender;
+  }
 
-    @Bean
-    public FCMServer fcmServer() {
-        return new FCMServerImpl();
-    }
+  @Bean
+  public AlertSystem alertSystem() {
+    return new AlertSystem();
+  }
+  @Bean
+  public FCMServer fcmServer() {
+    return new FCMServerImpl();
+  }
 
-    @Bean
-    public EmailNotificationServer emailNotificationServer() {
-        return new EmailNotificationServerImpl();
-    }
+  @Bean
+  public EmailNotificationServer emailNotificationServer() {
+    return new EmailNotificationServerImpl();
+  }
 
-
-    @Bean(name="processExecutor")
-    public Executor getAsyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(10);
-        executor.setQueueCapacity(20);
-        executor.setThreadNamePrefix("AsyncConfigurerSupportDemo");
-        executor.initialize();
-        return executor;
-    }
+  @Bean(name = "processExecutor")
+  public Executor getAsyncExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(10);
+    executor.setMaxPoolSize(10);
+    executor.setQueueCapacity(20);
+    executor.setThreadNamePrefix("AsyncConfigurerSupportDemo");
+    executor.initialize();
+    return executor;
+  }
 }

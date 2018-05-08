@@ -1,16 +1,8 @@
-/*
- *  THIS PROGRAM IS CONFIDENTIAL AND PROPRIETARY TO EQUIFAX INC. AND MAY NOT BE REPRODUCED, PUBLISHED OR DISCLOSED TO OTHERS WITHOUT ITS AUTHORIZATION.
- *
- *   Copyright © 2016 Equifax Inc.
- *
- *   All Rights Reserved. EQUIFAX is a trademark or registered trademarks of Equifax Inc. or its affiliates in the U.S. and other  countries. Other names may be trademarks of their respective owners.
- *
- */
-
 package com.mcx;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.mcx.constants.NotificationConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -27,25 +19,23 @@ import java.io.IOException;
 @Component
 public class SimpleCORSFilter implements Filter {
 
-  private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
+  private static final Logger logger = LogManager.getLogger(SimpleCORSFilter.class);
 
   public SimpleCORSFilter() {
-    log.info("SimpleCORSFilter init");
+    logger.info("SimpleCORSFilter init");
   }
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-
+    logger.debug("Inside SimpleCORSFilter");
     HttpServletRequest request = (HttpServletRequest) req;
     HttpServletResponse response = (HttpServletResponse) res;
-
-    response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-    response.setHeader("Access-Control-Allow-Credentials", "true");
-    response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-    response.setHeader("Access-Control-Max-Age", "3600");
-    response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me,Authorization");
-
-    chain.doFilter(req, res);
+    //response.setHeader(NotificationConstants.Access_Control_Allow_Origin, request.getHeader(NotificationConstants.Access_Control_Allow_Origin_VALUES));
+    response.setHeader(NotificationConstants.Access_Control_Allow_Credentials, NotificationConstants.Access_Control_Allow_Credentials_VALUES);
+    response.setHeader(NotificationConstants.Access_Control_Allow_Methods, NotificationConstants.Access_Control_Allow_Methods_VALUES);
+    response.setHeader(NotificationConstants.Access_Control_Max_Age, NotificationConstants.Access_Control_Max_Age_VALUE);
+    response.setHeader(NotificationConstants.Access_Control_Allow_Headers, NotificationConstants.Access_Control_Allow_Headers_VALUES);
+    chain.doFilter(request, res);
   }
 
   @Override

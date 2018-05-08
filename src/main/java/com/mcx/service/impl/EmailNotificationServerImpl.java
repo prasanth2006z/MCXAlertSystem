@@ -32,7 +32,7 @@ public class EmailNotificationServerImpl implements EmailNotificationServer {
         if (obj != null) {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(NotificationConstants.SENT_FROM);
-            message.setSubject(NotificationConstants.SENT_USER_SUBJECT);
+            message.setSubject(NotificationConstants.SENT_SUBJECT);
             message.setText(gson.toJson(obj));
             emailSender.send(message);
             return new AsyncResult<>(Boolean.TRUE);
